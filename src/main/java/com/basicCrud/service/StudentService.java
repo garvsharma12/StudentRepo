@@ -47,10 +47,20 @@ public class StudentService {
             student.setPhone(studentRequest.getPhone());
             student.setDomain(studentRequest.getDomain());
             student.setEmail(studentRequest.getEmail());
-            
+
             return studentRepository.save(student);
         } else {
             throw new RuntimeException("Student not found with id: " + id);
+        }
+    }
+
+    public ResponseEntity<Void> deleteStudent(Long id) {
+        Optional<Student> existingStudent = studentRepository.findById(id);
+        if(existingStudent.isPresent()) {
+            studentRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }
