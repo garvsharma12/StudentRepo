@@ -14,6 +14,16 @@ public class Student {
     private String email;
     private String phone;
     private int age;
+    private String domain;
+
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
     public int getRoll_no() {
         return roll_no;
@@ -55,3 +65,4 @@ public class Student {
         this.age = age;
     }
 }
+

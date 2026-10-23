@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jspecify.annotations.Nullable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.basicCrud.entity.Student;
@@ -34,5 +35,22 @@ public class StudentService {
 
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
+    }
+
+    public Student updateStudent(Long id, Student studentRequest) {
+        Optional<Student> existingStudent = studentRepository.findById(id);
+        if(existingStudent.isPresent()) {
+            Student student = existingStudent.get();
+            // Update the student object with the new values
+            student.setName(studentRequest.getName());
+            student.setAge(studentRequest.getAge());
+            student.setPhone(studentRequest.getPhone());
+            student.setDomain(studentRequest.getDomain());
+            student.setEmail(studentRequest.getEmail());
+            
+            return studentRepository.save(student);
+        } else {
+            throw new RuntimeException("Student not found with id: " + id);
+        }
     }
 }
