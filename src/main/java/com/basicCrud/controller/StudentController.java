@@ -64,12 +64,13 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
             return ResponseEntity.notFound().build();
         }
-        return studentService.deleteStudent(id);
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student deleted successfully");
     }
 
 }

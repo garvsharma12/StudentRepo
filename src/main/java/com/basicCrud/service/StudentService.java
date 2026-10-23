@@ -54,11 +54,11 @@ public class StudentService {
         }
     }
 
-    public ResponseEntity<Void> deleteStudent(Long id) {
+    public ResponseEntity<String> deleteStudent(Long id) {
         Optional<Student> existingStudent = studentRepository.findById(id);
         if(existingStudent.isPresent()) {
             studentRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Student deleted successfully");
         } else {
             return ResponseEntity.notFound().build();
         }
