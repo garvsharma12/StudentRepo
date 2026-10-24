@@ -1,5 +1,6 @@
 package com.basicCrud.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,13 +10,21 @@ import jakarta.persistence.Id;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roll_no;
+    @Column(name = "roll_no")
+    private Long id;
     private String name;
     private String email;
     private String phone;
     private int age;
     private String domain;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDomain() {
         return domain;
@@ -23,14 +32,6 @@ public class Student {
 
     public void setDomain(String domain) {
         this.domain = domain;
-    }
-
-    public int getRoll_no() {
-        return roll_no;
-    }
-
-    public void setRoll_no(int roll_no) {
-        this.roll_no = roll_no;
     }
 
     public String getName() {

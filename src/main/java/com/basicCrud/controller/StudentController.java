@@ -1,6 +1,7 @@
 package com.basicCrud.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.basicCrud.entity.Student;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -35,13 +37,14 @@ public class StudentController {
         return ResponseEntity.ok(createdStudent);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
-        Student student = studentService.getStudent(id);
-        if (student == null) {
+    @GetMapping("/get")
+    public ResponseEntity<Student> getStudent(@RequestParam Long id) {
+        try {
+            Student student = studentService.getStudent(id);
+            return ResponseEntity.ok(student);
+        } catch (RuntimeException ex) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
     }
     
     @GetMapping("/getAll")
@@ -55,22 +58,22 @@ public class StudentController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentRequest) {
-        Student student = studentService.updateStudent(id, studentRequest);
-        if (student == null) {
+        try {
+            Student student = studentService.updateStudent(id, studentRequest);
+            return ResponseEntity.ok(student);
+        } catch (RuntimeException ex) {
             return ResponseEntity.notFound().build();
         }
-        
-        return ResponseEntity.ok(student);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
-        Student student = studentService.getStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        studentService.deleteStudent(id);
-        return ResponseEntity.ok("Student deleted successfully");
+        return studentService.deleteStudent(id);
+    }
+
+    @PatchMapping("/softDelete/{id}")
+    public ResponseEntity<String> softDeleteStudent(@PathVariable Long id) {
+        return studentService.deleteStudent(id);
     }
 
 }
